@@ -1,0 +1,2 @@
+# magazine
+django app
