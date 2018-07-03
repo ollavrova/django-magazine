@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>{{ posts.title }}</h1>
+
+    {% if posts %}
+    <ul>
+
+    {% for post in posts %}
+        <div class="hr">
+            <hr/>
+        </div>
+        <li>{{ post.title }} - {{ post.author }} - {{ post.created|date:"g:i a" }}</li>
+        <p>{{ post.body }}</p>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p>No posts for now.</p>
+    {% endif %}
+
+{% endblock content %}

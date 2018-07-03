@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+    {% block extra_head %}{% endblock extra_head %}
+</head>
+<body id="{% block body_id %}{% endblock %}" class="container {% block body_class %}{% endblock %}">
+<div class="content">
+    {% block title-block %}
+        <div class="title left-side">
+            <h3>Django magazine</h3>
+        </div>
+    {% endblock %}
+    {% block content %}{% endblock content %}
+</div>
+</body>
+</html>

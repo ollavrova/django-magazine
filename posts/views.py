@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.generic import TemplateView
 
-# Create your views here.
+from posts.models import Posts
+
+
+class Index(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(Index, self).get_context_data(**kwargs)
+        context['posts'] = Posts.objects.filter(approved=True).order_by('-created')
+        return context
+
+
+index = Index.as_view()
+
+
+def detail(request, post_id):
+    return HttpResponse("You're looking at post %s." % post_id)
