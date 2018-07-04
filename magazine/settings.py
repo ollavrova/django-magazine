@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+AUTH_USER_MODEL = 'posts.UserProfile'
 DATETIME_FORMAT = '%d-%m-%Y %H:%M:S'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

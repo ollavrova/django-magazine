@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 
-from posts.models import Posts
+from posts.models import Post
 
 
 class Index(TemplateView):
@@ -9,7 +9,7 @@ class Index(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
-        context['posts'] = Posts.objects.filter(approved=True).order_by('-created')
+        context['posts'] = Post.objects.filter(approved=True).order_by('-created')
         return context
 
 
