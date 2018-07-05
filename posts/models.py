@@ -1,21 +1,19 @@
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
+from django.conf import settings
+from django.contrib.auth.models import User, BaseUserManager, AbstractBaseUser,  PermissionsMixin
 from django.db import models
-from django.contrib.auth.models import User
-from magazine import settings
+from rest_framework.authtoken.models import Token
 
 
 class Post(models.Model):
     title = models.TextField()
     body = models.TextField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
     created = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, date_of_birth, password=None):
+    def create_user(self, email, date_of_birth, password=None, role=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -26,13 +24,15 @@ class MyUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             date_of_birth=date_of_birth,
+            role=role
         )
 
         user.set_password(password)
         user.save(using=self._db)
+        Token.objects.create(user=user)
         return user
 
-    def create_superuser(self, email, date_of_birth, password):
+    def create_superuser(self, email, date_of_birth, password, role):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
@@ -41,13 +41,15 @@ class MyUserManager(BaseUserManager):
             email,
             password=password,
             date_of_birth=date_of_birth,
+            role=role
         )
         user.is_admin = True
         user.save(using=self._db)
+        Token.objects.create(user=user)
         return user
 
 
-class UserProfile(AbstractBaseUser):
+class UserProfile(AbstractBaseUser, PermissionsMixin):
     WRITER = 1
     EDITOR = 2
     SUPERVISOR = 3
@@ -64,7 +66,7 @@ class UserProfile(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
+    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, default=1)
     date_of_birth = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
@@ -104,4 +106,3 @@ class UserProfile(AbstractBaseUser):
         "Is the user a member of superuser?"
         # Simplest possible answer: All admins are superuser
         return self.is_admin
-
