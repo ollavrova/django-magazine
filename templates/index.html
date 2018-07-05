@@ -10,8 +10,8 @@
         <div class="hr">
             <hr/>
         </div>
-        <li>{{ post.title }} - {{ post.author }} - {{ post.created|date:"g:i a" }}</li>
-        <p>{{ post.body }}</p>
+        <li>{{ post.title|title }} - {{ post.author }} - {{ post.created|date:"g:i a" }}</li>
+        <p>{{ post.body|truncatechars:100 }}</p>
     {% endfor %}
     </ul>
     {% else %}

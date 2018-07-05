@@ -3,11 +3,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from posts.models import Post, UserProfile
+from rest_framework.authtoken.admin import TokenAdmin
+
+TokenAdmin.raw_id_fields = ('user',)
 
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'created', 'author', 'approved')
-    readonly_fields = ('author', )
 
 
 admin.site.register(Post, PostAdmin)

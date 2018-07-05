@@ -12,7 +12,54 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+# from posts.serializers import CustomUserDetailsSerializer
+
 AUTH_USER_MODEL = 'posts.UserProfile'
+
+# AUTHENTICATION_BACKENDS = (
+#     # 'posts.auth_backends.CustomUserModelBackend',
+#
+#  # Needed to login by username in Django admin, regardless of `allauth`
+#  "django.contrib.auth.backends.ModelBackend",
+#
+#  # `allauth` specific authentication methods, such as login by e-mail
+#  "allauth.account.auth_backends.AuthenticationBackend",
+# )
+
+SITE_ID = 1
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_FORM_CLASS = 'posts.forms.SignupForm'
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'posts.serializers.CustomUserDetailsSerializer'}
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    #     'rest_framework.permissions.DjangoModelPermissions'
+    # ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'posts.authentication.CustomAuthentication',  # custom authentication class
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+}
+
+# SWAGGER_SETTINGS = {
+#     'LOGIN_URL': 'login',
+#     'LOGOUT_URL': 'logout',
+# }
+REST_SESSION_LOGIN = True
+
 DATETIME_FORMAT = '%d-%m-%Y %H:%M:S'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -40,6 +87,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    # 'registration',
+    # 'allauth',
+    # 'allauth.account',
+    'rest_framework_swagger',
+    # 'django_filters',
     'posts'
 ]
 

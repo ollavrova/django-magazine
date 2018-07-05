@@ -3,4 +3,11 @@ pip==10.0.1
 pkg-resources==0.0.0
 pytz==2018.5
 setuptools==20.7.0
+djangorestframework==3.8.2
+django-rest-auth==0.9.3
+django-rest-swagger==2.2.0
+coreapi==2.3.3
+django-filters==0.2.1
+
+
 
