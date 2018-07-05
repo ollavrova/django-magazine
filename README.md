@@ -1,11 +1,11 @@
 # magazine
-django app
+django application
 
 There is implemented  swagger UI - http://127.0.0.1:8000/doc/
 
 API description:
 
-- PUT /rest-auth/user/ - create a user
+- POST /api/userprofile/ - create a user(and profile). Role will be defined by field 'role'. Writers has role=1, editor had role=2, supervisor has role=3. Roles are described in settings.ROLE_CHOICES.
 
 ```
 curl -X PUT "http://127.0.0.1:8000/rest-auth/user/" -H "accept: application/json" -H "Content-Type: application/json" -H "X-CSRFToken: FnhTwnW5mAPSuU02BwoL9MVRwY7KKACCu7TuyKn6OYUvGZxcjUnEQpx00g6fSXiU" -d "{\"email\": \"admin1@admin.com\", \"password\": \"adminadmin\", \"is_admin\": true, \"date_of_birth\": \"2012-12-12\", \"is_active\": true, \"role\": \"1\"}"

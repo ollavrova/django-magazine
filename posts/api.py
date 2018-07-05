@@ -1,13 +1,14 @@
 from django.conf import settings
+from rest_framework import viewsets, mixins
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 
 from posts.models import Post, UserProfile
 from .serializers import PostSerializer, UserProfileSerializer, UserPostsSerializer
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import  AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_405_METHOD_NOT_ALLOWED
 
 
@@ -22,10 +23,22 @@ class ApprovedPostList(ListAPIView):
         return Post.objects.filter(approved=True)
 
 
-class UserProfileDetail(RetrieveAPIView):
+class UserProfileDetail(CreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     authentication_classes = (TokenAuthentication, )
+
+
+class UserProfileCreateRetrieveViewSet(mixins.CreateModelMixin,
+                                       mixins.RetrieveModelMixin,
+                                       viewsets.GenericViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    authentication_classes = (TokenAuthentication, )
+
+
+user_create = UserProfileCreateRetrieveViewSet.as_view({'post': 'create'})
+user_detail = UserProfileCreateRetrieveViewSet.as_view({'get': 'retrieve'})
 
 
 class PostList(ListCreateAPIView):
