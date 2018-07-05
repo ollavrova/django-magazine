@@ -3,10 +3,10 @@
     "model": "posts.userprofile",
     "pk": 1,
     "fields": {
-      "password": "pbkdf2_sha256$36000$2vYC6qwpdPUM$7J3BtjUB/MrwezMZC8AtbNd0YuJaCIl19727mIG7bsE=",
+      "password": "pbkdf2_sha256$12000$YLvu1hufQe5N$Yz29siaHHduntfDA4R7RrH5KfoLuAiBkV51ITEQRvnM=",
       "last_login": "2018-07-04T12:19:09.629Z",
       "email": "admin@admin.com",
-      "role": null,
+      "role": 3,
       "date_of_birth": "1945-12-23",
       "is_active": true,
       "is_admin": true
