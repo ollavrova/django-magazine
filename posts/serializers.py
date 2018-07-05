@@ -6,7 +6,7 @@ class CustomUserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('email', 'role', 'date_of_birth', 'is_active', 'is_staff', 'is_admin')
+        fields = '__all__'
         read_only_fields = ('email',)
 
 
@@ -14,20 +14,20 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'body', 'created', 'author', 'approved')
+        fields = '__all__'
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('email', 'role', 'date_of_birth', 'is_active', 'is_staff', 'is_admin')
+        fields = '__all__'
 
 
-class PostsWriterSerializer(serializers.ModelSerializer):
-    posts = PostSerializer(many=True, read_only=True)
+class UserPostsSerializer(serializers.ModelSerializer):
+    posts = PostSerializer(many=True)
 
     class Meta:
         model = UserProfile
-        fields = ('id', 'email', 'posts')
+        fields = ('email', 'role', 'posts')
 

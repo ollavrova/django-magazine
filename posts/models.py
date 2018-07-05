@@ -11,6 +11,13 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = ('author', 'title')
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title[:25]
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, date_of_birth, password=None, role=None):
@@ -50,14 +57,6 @@ class MyUserManager(BaseUserManager):
 
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
-    WRITER = 1
-    EDITOR = 2
-    SUPERVISOR = 3
-    ROLE_CHOICES = (
-        (WRITER, 'Writer'),
-        (EDITOR, 'Editor'),
-        (SUPERVISOR, 'Supervisor'),
-    )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['date_of_birth', 'role']
 
@@ -66,7 +65,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True,
     )
-    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, default=1)
+    role = models.PositiveSmallIntegerField(choices=settings.ROLE_CHOICES, default=1)
     date_of_birth = models.DateField()
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)

@@ -16,15 +16,21 @@ import os
 
 AUTH_USER_MODEL = 'posts.UserProfile'
 
-# AUTHENTICATION_BACKENDS = (
-#     # 'posts.auth_backends.CustomUserModelBackend',
-#
-#  # Needed to login by username in Django admin, regardless of `allauth`
-#  "django.contrib.auth.backends.ModelBackend",
-#
-#  # `allauth` specific authentication methods, such as login by e-mail
-#  "allauth.account.auth_backends.AuthenticationBackend",
-# )
+WRITER = 1
+EDITOR = 2
+SUPERVISOR = 3
+ROLE_CHOICES = (
+    (WRITER, 'Writer'),
+    (EDITOR, 'Editor'),
+    (SUPERVISOR, 'Supervisor'),
+)
+
+AUTHENTICATION_BACKENDS = (
+    # 'posts.auth_backends.CustomUserModelBackend',
+
+ # Needed to login by username in Django admin, regardless of `allauth`
+ "django.contrib.auth.backends.ModelBackend",
+)
 
 SITE_ID = 1
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
@@ -39,13 +45,13 @@ REST_AUTH_SERIALIZERS = {
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.IsAuthenticated',
-    #     'rest_framework.permissions.DjangoModelPermissions'
-    # ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'posts.authentication.CustomAuthentication',  # custom authentication class
-    # ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.DjangoModelPermissions'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'posts.authentication.CustomAuthentication',  # custom authentication class
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
@@ -54,10 +60,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
-# SWAGGER_SETTINGS = {
-#     'LOGIN_URL': 'login',
-#     'LOGOUT_URL': 'logout',
-# }
 REST_SESSION_LOGIN = True
 
 DATETIME_FORMAT = '%d-%m-%Y %H:%M:S'
@@ -91,11 +93,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    # 'registration',
-    # 'allauth',
-    # 'allauth.account',
     'rest_framework_swagger',
-    # 'django_filters',
     'posts'
 ]
 
