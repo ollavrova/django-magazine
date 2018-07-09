@@ -2,33 +2,39 @@
 django application
 
 There is implemented  swagger UI - http://127.0.0.1:8000/doc/
+```
+ $ python manage.py migrate
+ $ python manage.py createsuperuser
+ $ python manage.py runserver
+```
+# Endpoints:
 
-API description:
+- login - 127.0.0.1:8000/rest-auth/login/
+- create a user and get token - 127.0.0.1:8000/api/userprofile 
+- just get auth token 127.0.0.1:8000/api-token-auth/
+- search posts by string http://127.0.0.1:8000/api/posts/approved/?search=Django
+
+Also there is provided a test user in fixtures:
+email - editor@admin.com
+password - 'adminadmin'
+```bash
+python manage.py loaddata posts/fixtures/initial_data.json
+```
+
+# API description:
 
 - POST /api/userprofile/ - create a user(and profile). Role will be defined by field 'role'. Writers has role=1, editor had role=2, supervisor has role=3. Roles are described in settings.ROLE_CHOICES.
 
 ```
-curl -X PUT "http://127.0.0.1:8000/rest-auth/user/" -H "accept: application/json" -H "Content-Type: application/json" -H "X-CSRFToken: FnhTwnW5mAPSuU02BwoL9MVRwY7KKACCu7TuyKn6OYUvGZxcjUnEQpx00g6fSXiU" -d "{\"email\": \"admin1@admin.com\", \"password\": \"adminadmin\", \"is_admin\": true, \"date_of_birth\": \"2012-12-12\", \"is_active\": true, \"role\": \"1\"}"
-
-Response body
-{
-  "id": 2,
-  "password": "adminadmin",
-  "last_login": "2018-07-05T11:21:22.937685Z",
-  "email": "admin@admin.com",
-  "role": 1,
-  "date_of_birth": "2012-12-12",
-  "is_active": true,
-  "is_admin": true,
-  "groups": [],
-  "user_permissions": []
-}
+$ curl -X POST "http://127.0.0.1:8000/api/userprofile/" -H "accept: applicatdeee6575670ae714113b8052a38a39" -H "Content-Type: application/json"  -d '{ "password": "adminadmin", "email": "editor11@admin.com", "date_of_birth":"1945-01-01", "role":2}'
+response:
+{"id":5,"email":"editor11@admin.com","role":2,"date_of_birth":"1945-01-01","is_active":true,"is_admin":false,"groups":[],"user_permissions":[]}
 ```
 
 POST /rest-auth/login/ - check the credentials and return the REST Token
 
 ```bash
-curl -X POST "http://127.0.0.1:8000/rest-auth/login/" -H "accept: application/json" -H "Content-Type: application/json" -H "X-CSRFToken: dzJluSMgGo6b1wTHoz8Cbh1wCX22i29rp8QVKXmBpfeU0TShTMKQmr6nBprIHXFL" -d "{ \"password\": \"adminadmin\", \"email\": \"admin@admin.com\", \"username\": \"None\"}"
+curl -X POST "http://127.0.0.1:8000/rest-auth/login/" -H "accept: application/json" -H "Content-Type: application/json" -d '{ "password": "adminadmin", "email": "editor@admin.com"}'
 response:
 {
   "key": "752d4f5170deee6575670ae714113b8052a38a39"
@@ -37,7 +43,7 @@ response:
 
 - GET /api/posts/approved/  - list of approved posts only
 ```bash
-curl -X GET "http://127.0.0.1:8000/api/posts/approved/" -H "accept: application/json" -H "X-CSRFToken: JNTH2h97CBCIPZzpPrl6pZpeJNpnP4GN7dC8DQVgu5YjsuIkiz3GAYkncYRdbKwy"
+curl -X GET "http://127.0.0.1:8000/api/posts/approved/" -H "accept: application/json" 
 {
   "count": 2,
   "next": null,
@@ -65,9 +71,9 @@ curl -X GET "http://127.0.0.1:8000/api/posts/approved/" -H "accept: application/
 ```
 
 Search posts:
-GET /api/posts/approved/ and GET /api/posts/
+GET /api/posts/approved/ 
 ```
-curl -X GET "http://127.0.0.1:8000/api/posts/approved/?search=Django" -H "accept: application/json" -H "X-CSRFToken: JNTH2h97CBCIPZzpPrl6pZpeJNpnP4GN7dC8DQVgu5YjsuIkiz3GAYkncYRdbKwy"
+curl -X GET "http://127.0.0.1:8000/api/posts/approved/?search=Django" -H "accept: application/json"
 Response body
 {
   "count": 1,
@@ -90,7 +96,7 @@ Response body
 
 - GET /api/posts/ - list of the all posts
 ```bash
-curl -X GET "http://127.0.0.1:8000/api/posts/" -H "accept: application/json" -H "X-CSRFToken: mZvSK61pHqsv4iiOxpFFFWW6iJRfSECupYcYSYdSPyzy8DeWe1khRepfDvTwVxVr"
+curl -X GET "http://127.0.0.1:8000/api/posts/" -H "accept: application/json" -H "Authorization: Token 752d4f5170deee6575670ae714113b8052a38a39" 
 [
   {
     "id": 1,
@@ -128,49 +134,28 @@ Code 200 OK
 
 - POST /api/posts/ - create a post (only writers allowed to create, despite will return 405 or 400 status)
 ```
-curl -X POST "http://127.0.0.1:8000/api/posts/" -H "accept: application/json" -H "Content-Type: application/json" -H "X-CSRFToken: rsWRY8ClnduwqEYtMODfwwTen2h2roKdR3YbkoWo4ijCOafES3HrvCWrZvH6UFXa" -d "{ \"approved\": true, \"title\": \"string11243\", \"author\": 1, \"body\": \"qqqqqqqqqqqqqqqq tesrrrrrrrrrrrrr\"}"
-Response body
+curl -X POST "http://127.0.0.1:8000/api/posts/"-H "Authorization: Token 752d4f5170deee6575670ae714113b8052a38a39" -H "accept: application/json" -H "Content-Type: application/json" -d '{ "approved": true, "title": "string11243", "author": 1, "body": "qqqqqqqqqqqqqqqq tesrrrrrrrrrrrrr"}'
+Response body, 201 code
 {
-  "id": 3,
   "title": "string11243",
   "body": "qqqqqqqqqqqqqqqq tesrrrrrrrrrrrrr",
-  "created": "2018-07-05T09:15:16.732618Z",
   "author": 1,
   "approved": true
 }
 ```
 
-
-- POST /rest-auth/user/ - create a new user:
-
-```
-curl -X PUT "http://127.0.0.1:8000/rest-auth/user/" -H "accept: application/json" -H "Content-Type: application/json" -H "X-CSRFToken: mZvSK61pHqsv4iiOxpFFFWW6iJRfSECupYcYSYdSPyzy8DeWe1khRepfDvTwVxVr" -d "{ \"date_of_birth\": \"2012-10-11\", \"role\": \"2\", \"is_admin\": true, \"is_active\": true, \"email\": \"new@example.com\", \"is_staff\": false,\"name\":\"None\"}"{
-	
-Response body- 
-{
-  "email": "admin@admin.com",
-  "role": 2,
-  "date_of_birth": "2012-10-11",
-  "is_active": true,
-  "is_staff": true,
-  "is_admin": true
-}
-Code 200 OK
-```
-- GET /rest-auth/user/<id> - get user profile details by id
- 
+- GET /api/writerposts/{id}/ - get all posts for writer id
 ```bash
-curl -X GET "http://127.0.0.1:8000/api/userprofile/1/" -H "accept: application/json" -H "X-CSRFToken: JNTH2h97CBCIPZzpPrl6pZpeJNpnP4GN7dC8DQVgu5YjsuIkiz3GAYkncYRdbKwy"
-Response body
+curl -X GET "http://127.0.0.1:8000/api/writerposts/2/" -H "accept: application/json" -H "Authorization: Token 752d4f5170deee6575670ae714113b8052a38a39" -d '{"pk": 2}'
+response: 200 OK
 {
-  "email": "admin@admin.com",
-  "role": 1,
-  "date_of_birth": "1201-12-12",
-  "is_active": true,
-  "is_staff": true,
-  "is_admin": true
+  "id": 2,
+  "email": "editor@admin.com",
+  "role": 2,
+  "posts": [
+    "1 Post acticle",
+    "2 post title article"
+  ]
 }
-Code 200 OK
-```
 
-- GET /api/writerposts/{id}/ - get all posts for writer
+```

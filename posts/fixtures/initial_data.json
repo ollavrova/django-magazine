@@ -5,11 +5,102 @@
     "fields": {
       "password": "pbkdf2_sha256$12000$YLvu1hufQe5N$Yz29siaHHduntfDA4R7RrH5KfoLuAiBkV51ITEQRvnM=",
       "last_login": "2018-07-04T12:19:09.629Z",
-      "email": "admin@admin.com",
-      "role": 3,
+      "email": "writer@admin.com",
+      "role": 1,
       "date_of_birth": "1945-12-23",
       "is_active": true,
-      "is_admin": true
+      "is_admin": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "posts.userprofile",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$CW5S2N3Tjw1s$uNPYHPj0wqh7X6HV/K29knOeD0pVTZa+kEE0HvqBWZc=",
+      "last_login": "2018-07-09T06:25:03.177Z",
+      "email": "editor@admin.com",
+      "role": 2,
+      "date_of_birth": "2012-10-11",
+      "is_active": true,
+      "is_admin": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "posts.userprofile",
+    "pk": 4,
+    "fields": {
+      "password": "adminadmin",
+      "last_login": null,
+      "email": "admin11@admin.com",
+      "role": 1,
+      "date_of_birth": "2012-10-11",
+      "is_active": true,
+      "is_admin": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "posts.userprofile",
+    "pk": 5,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "email": "editor11@admin.com",
+      "role": 1,
+      "date_of_birth": "1945-01-01",
+      "is_active": true,
+      "is_admin": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 1,
+    "fields": {
+      "title": "1 Post acticle",
+      "body": "up vote\r\n14\r\ndown vote\r\nSince Django 1.7 there is a function get_changeform_initial_data in ModelAdmin that sets initial form values:\r\n\r\ndef get_changeform_initial_data(self, request):\r\n    return {'name': 'custom_initial_value'}\r\nEDIT: Apart from that, @Paul Kenjora's answer applies anyway, which might be useful if you already override get_form.\r\n\r\nIn case of inline (InlineModelAdmin) there is no get_changeform_initial_data. You can override get_formset and set formset.form.base_fields['my_field_name'].initial.\r\n\r\nshareedit\r\nedited May 11 '17 at 10:09\r\nanswered Nov 11 '15 at 10:39\r\n\r\nWtower\r\n9,22096153\r\nIt doesn't work if you are using a custom form class for the model admin \u2013 ozgur Dec 26 '16 at 15:13 \r\n@ozgur naturally. If you use a custom form class then just use get_form as recommended in another answer. If not though, there is absolutely no reason to do so. \u2013 Wtower Dec 26 '16 at 17:04 \r\nother answer doesn't work too if the field you are providing an initial value is excluded via exclude property because base_fields doesn't include excluded fields. \u2013 ozgur Dec 26 '16 at 17:38\r\n1\r\nthanks, this helped me. so many other posts have way more complicated ways of doing this. \u2013 FistOfFury Sep 20 '17 at 2:55",
+      "author": 2,
+      "created": "2018-07-04T19:21:39.439Z",
+      "approved": false
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 2,
+    "fields": {
+      "title": "2 post title article",
+      "body": "Django - ForeignField initial value definition in Admin\r\nAsk Question\r\nup vote\r\n3\r\ndown vote\r\nfavorite\r\n1\r\nI have a Persons Model, which has a Mother Foreign Field to itself. When the user go to the 'add' admin form, I want to define a initial value for Mother, in case there is a GET('mother') parameter, or leave it blank, in case there is not.\r\n\r\nI have actually 2 questions:\r\n\r\nHow to access request inside ModelAdmin?\r\nHow to define initial value for a ForeignField?\r\nIn models.py:\r\n\r\nclass Person(models.Model):\r\n    name=models.CharField()\r\n    mother=models.ForeignKey('self')\r\nIn admin.py:\r\n\r\nclass  PersonAdminForm(forms.ModelForm):\r\n    class Meta:\r\n        model = Person\r\n\r\nclass PersonAdmin(admin.ModelAdmin):\r\n    mother = request.GET.get('mother','') #don`t know how to access request\r\n\r\n    if mother != '':\r\n        form = PersonAdminForm",
+      "author": 2,
+      "created": "2018-07-04T19:22:03.618Z",
+      "approved": true
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 3,
+    "fields": {
+      "title": "3 article title",
+      "body": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
+      "author": 1,
+      "created": "2018-07-08T12:51:39.004Z",
+      "approved": false
+    }
+  },
+  {
+    "model": "posts.post",
+    "pk": 4,
+    "fields": {
+      "title": "4 article",
+      "body": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
+      "author": 1,
+      "created": "2018-07-08T12:51:56.516Z",
+      "approved": true
     }
   }
 ]

@@ -5,7 +5,6 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from posts.models import Post, UserProfile
 from rest_framework.authtoken.admin import TokenAdmin
 
-TokenAdmin.raw_id_fields = ('user',)
 
 
 class PostAdmin(admin.ModelAdmin):

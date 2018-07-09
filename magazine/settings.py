@@ -25,12 +25,12 @@ ROLE_CHOICES = (
     (SUPERVISOR, 'Supervisor'),
 )
 
-AUTHENTICATION_BACKENDS = (
-    # 'posts.auth_backends.CustomUserModelBackend',
-
- # Needed to login by username in Django admin, regardless of `allauth`
- "django.contrib.auth.backends.ModelBackend",
-)
+# AUTHENTICATION_BACKENDS = (
+#     # 'posts.auth_backends.CustomUserModelBackend',
+#
+#  # Needed to login by username in Django admin, regardless of `allauth`
+#  "django.contrib.auth.backends.ModelBackend",
+# )
 
 SITE_ID = 1
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
@@ -46,14 +46,12 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     # 'DEFAULT_PERMISSION_CLASSES': [
-    #     # 'rest_framework.permissions.IsAuthenticated',
-    #     # 'rest_framework.permissions.DjangoModelPermissions'
+    #     'rest_framework.permissions.IsAuthenticated',
     # ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'posts.authentication.CustomAuthentication',  # custom authentication class
-    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework.authentication.SessionAuthentication',
+        'posts.authentication.CustomAuthentication',  # custom authentication class
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -63,6 +61,9 @@ REST_FRAMEWORK = {
 REST_SESSION_LOGIN = True
 
 DATETIME_FORMAT = '%d-%m-%Y %H:%M:S'
+
+LOGIN_URL = 'rest_framework:login'
+LOGOUT_URL = 'rest_framework:logout'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
