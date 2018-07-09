@@ -1,24 +1,30 @@
 # magazine
-django application
+django application, Django 1.11.14, Python 3.5
 
-There is implemented  swagger UI - http://127.0.0.1:8000/doc/
-```
- $ python manage.py migrate
- $ python manage.py createsuperuser
- $ python manage.py runserver
-```
+There is implemented a swagger UI - http://127.0.0.1:8000/doc/
+
 # Endpoints:
 
-- login - 127.0.0.1:8000/rest-auth/login/
-- create a user and get token - 127.0.0.1:8000/api/userprofile 
-- just get auth token 127.0.0.1:8000/api-token-auth/
+- login - http://127.0.0.1:8000/rest-auth/login/
+- create a user and get token - http://127.0.0.1:8000/api/userprofile 
+- just get auth token - http://127.0.0.1:8000/api-token-auth/
+- get approved posts - http://127.0.0.1:8000/api/posts/approved/
 - search posts by string http://127.0.0.1:8000/api/posts/approved/?search=Django
+- get all posts (with token auth) - http://127.0.0.1:8000/api/posts/
+- get all post by writer id (with token auth) - http://127.0.0.1:8000/api/writerposts/2/
 
 Also there is provided a test user in fixtures:
 email - editor@admin.com
 password - 'adminadmin'
 ```bash
 python manage.py loaddata posts/fixtures/initial_data.json
+```
+
+Commands:
+```
+ $ python manage.py migrate
+ $ python manage.py createsuperuser
+ $ python manage.py runserver
 ```
 
 # API description:
@@ -92,7 +98,6 @@ Response body
 }
 
 ```
-
 
 - GET /api/posts/ - list of the all posts
 ```bash
