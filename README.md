@@ -1,7 +1,7 @@
 # magazine
 django application, Django 1.11.14, Python 3.5
 
-There is implemented a swagger UI - http://127.0.0.1:8000/doc/
+There is implemented a swagger UI - http://127.0.0.1:8000/doc/ and added custom user profile - used email/password auth instead username.
 
 # Endpoints:
 
