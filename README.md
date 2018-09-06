@@ -1,9 +1,21 @@
-# magazine
-django application, Django 1.11.14, Python 3.5
+# Online magazine
 
-There is implemented a swagger UI - http://127.0.0.1:8000/doc/ and added custom user profile - used email/password auth instead username.
+This example of django application provides REST API for online magazine with next functional:
 
-# Endpoints:
+- create a user with one of 3 roles: writer, editor and supervisor by custom auth system(without username, just email and password);
+- authenticate a user and get auth token;
+- get approved posts list;
+- search posts;  
+- get all posts(by token auth);  
+- get all post for writer_id(by token auth) 
+- get user profile(by token auth);
+- create a post(by token auth);
+- get post list(by token auth)
+- get post list with pagination and offsets/limits(by token auth);
+
+There is an implemented a swagger UI - http://127.0.0.1:8000/doc/
+
+# Endpoints list:
 
 - login - http://127.0.0.1:8000/rest-auth/login/
 - create a user and get token - http://127.0.0.1:8000/api/userprofile 
@@ -16,6 +28,7 @@ There is implemented a swagger UI - http://127.0.0.1:8000/doc/ and added custom 
 Also there is provided a test user in fixtures:
 email - editor@admin.com
 password - 'adminadmin'
+
 ```bash
 python manage.py loaddata posts/fixtures/initial_data.json
 ```
@@ -26,6 +39,13 @@ Commands:
  $ python manage.py createsuperuser
  $ python manage.py runserver
 ```
+## Requirements:
+- Python 3.5
+- Django 1.11.14,
+- djangorestframework 3.8.2
+- django-rest-auth 0.9.3
+- django-rest-swagger 2.2.0
+- coreapi 2.3.3
 
 # API description:
 
